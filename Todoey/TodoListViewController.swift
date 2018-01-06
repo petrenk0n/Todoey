@@ -11,8 +11,14 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = [String]()
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK - Tableview Datasource Methods
@@ -51,9 +57,12 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
-            // the closure will get triggered once a user clicks the Add button
+            
             self.itemArray.append(textField.text!)
-            print(self.itemArray)
+            
+            // Save the updated itemArray to UserDefaults
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             // reload the tableview after a new item was added
             self.tableView.reloadData()
         }
