@@ -10,11 +10,11 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray = [String]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     //MARK - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,7 +39,7 @@ class TodoListViewController: UITableViewController {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
-
+        
     }
     
     //MARK - Add New Items
@@ -67,6 +67,6 @@ class TodoListViewController: UITableViewController {
         
     }
     
-
+    
 }
 
