@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="UXb-bE-HJX" id="0p4-D4-hZO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todoey" id="Fws-Oa-V81"/>
+                    <navigationItem key="navigationItem" title="Todoey" id="Fws-Oa-V81">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jGJ-hE-bMt">
+                            <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="UXb-bE-HJX" id="bJH-wr-3n1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OH8-SM-RIM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -46,7 +53,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CCU-MM-Z6q">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.27981949184503946" green="0.68182859176195787" blue="0.95992623730964466" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="0.52456418636665303" green="0.4586054325312714" blue="0.77337801395939088" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </textAttributes>
