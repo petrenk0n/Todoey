@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import CoreData
+
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +65,9 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             
-            let newItem = Item()
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
             
             self.itemArray.append(newItem)
             
@@ -84,11 +87,9 @@ class TodoListViewController: UITableViewController {
     //MARK - Model Manipulating Methods
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
+
         do {
-            // Encode the items
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
             print(error)
         }
@@ -97,15 +98,11 @@ class TodoListViewController: UITableViewController {
     }
     
     func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            // Decode the items
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data) // Specifying the type of what is going to be decoded and from where
-            } catch {
-                print(error)
-            }
-                
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request) // will return items and save it to the itemArray to be displayed in the view
+        } catch {
+            print(error)
         }
     }
     
