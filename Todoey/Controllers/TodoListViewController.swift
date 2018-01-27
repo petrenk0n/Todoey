@@ -24,7 +24,7 @@ class TodoListViewController: UITableViewController {
 //        }
     }
     
-    //MARK - Tableview Datasource Methods
+    //MARK: - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -42,10 +42,13 @@ class TodoListViewController: UITableViewController {
         return cell
     }
     
-    //MARK - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(itemArray[indexPath.row])
+        
+//        context.delete(itemArray[indexPath.row]) // remove the item from the context
+//        itemArray.remove(at: indexPath.row) // remove the item from the itemArray
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
@@ -55,7 +58,7 @@ class TodoListViewController: UITableViewController {
         
     }
     
-    //MARK - Add New Items
+    //MARK: - Add New Items
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -84,7 +87,7 @@ class TodoListViewController: UITableViewController {
         
     }
     
-    //MARK - Model Manipulating Methods
+    //MARK: - Model Manipulating Methods
     
     func saveItems() {
 
@@ -94,18 +97,32 @@ class TodoListViewController: UITableViewController {
             print(error)
         }
         // reload the tableview after a new item was added
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
-    func loadItems() {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         do {
             itemArray = try context.fetch(request) // will return items and save it to the itemArray to be displayed in the view
         } catch {
             print(error)
         }
+        tableView.reloadData()
     }
     
-    
+}
+
+//MARK: - Search Bar Methods
+
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // Query the database
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+    }
 }
 
