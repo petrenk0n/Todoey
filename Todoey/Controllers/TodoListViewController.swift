@@ -124,5 +124,15 @@ extension TodoListViewController: UISearchBarDelegate {
         
         loadItems(with: request)
     }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            // Assigns tasks to different threads
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder() // Will disable the keyboard
+            }
+            
+        }
+    }
 }
 
